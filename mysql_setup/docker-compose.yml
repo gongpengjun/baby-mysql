@@ -1,0 +1,32 @@
+version: '3'
+
+services:
+  # MySQL
+  db:
+    image: mysql:5.7
+    container_name: baby_mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: baby_database
+      MYSQL_USER: gongpengjun
+      MYSQL_PASSWORD: g1p2j3
+      TZ: 'Asia/Shanghai'
+    command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+    volumes:
+    - ./docker/data:/var/lib/mysql
+    - ./docker/config/my.cnf:/etc/mysql/conf.d/my.cnf
+    - ./docker/initdb:/docker-entrypoint-initdb.d
+    ports:
+    - 3307:3306
+
+  # phpMyAdmin
+  phpmyadmin:
+    container_name: baby_phpmyadmin
+    image: phpmyadmin/phpmyadmin
+    environment:
+    - PMA_ARBITRARY=1
+    - PMA_HOSTS=baby_mysql
+    - PMA_USER=root
+    - PMA_PASSWORD=root
+    ports:
+    - 3308:80
