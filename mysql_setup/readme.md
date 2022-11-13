@@ -63,7 +63,7 @@ docker-compose配置文件。
 
 ## 3、安装MySQL
 
-### 3.1、启动MySQL
+### 3.1、启动
 
 
 ```shell
@@ -90,7 +90,7 @@ Uptime	191
 
 [http://localhost:3308/](http://localhost:3308/)
 
-## 4、初始化Table `users`
+## 4、初始化MySQL表 `users`
 
 ### 4.1、表`users` - 创建
 
@@ -127,7 +127,29 @@ Rows in table: baby_database.users
 
 ## 5、关闭MySQL
 
-### 5.1、关闭MySQL
+### 5.1、启动MySQL
+
+```shell
+$ docker-compose up -d
+```
+
+### 5.2、查看MySQL启动状态
+
+```shell
+$ docker-compose ps
+```
+
+实际执行：
+
+```shell
+gongpengjun@mbp mysql_setup$ docker-compose ps
+     Name                    Command               State                 Ports
+--------------------------------------------------------------------------------------------
+baby_mysql        docker-entrypoint.sh mysql ...   Up      0.0.0.0:3307->3306/tcp, 33060/tcp
+baby_phpmyadmin   /docker-entrypoint.sh apac ...   Up      0.0.0.0:3308->80/tcp
+```
+
+### 5.3、关闭MySQL
 
 ```shell
 $ docker-compose down
