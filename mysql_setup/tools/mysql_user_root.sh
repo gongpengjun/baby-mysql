@@ -7,10 +7,9 @@ if [ $# -gt 1 ] ; then
 fi
 
 if [ $# = 1 ] ; then
-	# --batch (-B) --skip-column-names (-N) --execute (-e)
-	# echo "--execute: $1"
-	MYSQL_PWD=root mysql -h127.0.0.1 -P3307 -uroot -BNe "SOURCE $1"
+  # --batch (-B) --skip-column-names (-N) --execute (-e)
+  # echo "--execute: $1"
+  MYSQL_PWD=root mysql -h127.0.0.1 -P3307 -uroot -BNe "SOURCE $1"
 else
-	MYSQL_PWD=root mysql -h127.0.0.1 -P3307 -uroot
+  MYSQL_PWD=root mysql -h127.0.0.1 -P3307 -uroot
 fi
-
