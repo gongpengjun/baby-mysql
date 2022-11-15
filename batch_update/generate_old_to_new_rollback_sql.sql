@@ -6,7 +6,7 @@ SELECT
     ' WHERE `id` = ',
     id,
     ' LIMIT 1;'
-  ) AS `baby_database.users.avatar_url.rollback.sql`
+  ) AS `baby_database.users.avatar_url.old2new.rollback.sql`
 FROM
   `baby_database`.`users`
 WHERE

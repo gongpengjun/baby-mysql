@@ -66,7 +66,7 @@ $ ./mysql.sh count_new_host.sql
 ### 2.1、生成回滚数据SQL
 
 
-生成回滚数据SQL的SQL `generate_old_rollback_sql.sql`:
+生成回滚数据SQL的SQL `generate_old_to_new_rollback_sql.sql`:
 
 ```sql
 SELECT
@@ -77,7 +77,7 @@ SELECT
     ' WHERE `id` = ',
     id,
     ' LIMIT 1;'
-  ) AS `baby_database.users.avatar_url.rollback.sql`
+  ) AS `baby_database.users.avatar_url.old2new.rollback.sql`
 FROM
   `baby_database`.`users`
 WHERE
@@ -87,10 +87,10 @@ WHERE
 实际执行：
 
 ```shell
-$ ./mysql.sh generate_old_rollback_sql.sql | awk '1;NR%2==0{print "DO SLEEP(1); /* wait for a second */"}' > avatar_url_host_old_rollback.sql
+$ ./mysql.sh generate_old_to_new_rollback_sql.sql | awk '1;NR%2==0{print "DO SLEEP(1); /* wait for a second */"}' > avatar_url_host_old_to_new_rollback.sql
 ```
 
-生成的回滚SQL `avatar_url_host_old_rollback.sql`：
+生成的回滚SQL `avatar_url_host_old_to_new_rollback.sql`：
 
 ```sql
 UPDATE `baby_database`.`users` SET `avatar_url` = "https://old.gongpengjun.com/baby-public/a.png", `updated_at` = "2022-11-15 21:06:41" WHERE `id` = 1 LIMIT 1;
@@ -114,7 +114,7 @@ select
     'WHERE `id` = ',
     id,
     ' LIMIT 1;'
-  ) AS `baby_database.users.avatar_url.old2new.update_sql`
+  ) AS `baby_database.users.avatar_url.old2new.update.sql`
 from
   `baby_database`.`users`
 where

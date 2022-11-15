@@ -5,7 +5,7 @@ select
     'WHERE id = ',
     id,
     ' LIMIT 1;'
-  ) AS `baby_database.users.avatar_url.new2old.update_sql`
+  ) AS `baby_database.users.avatar_url.new2old.update.sql`
 from
   `baby_database`.`users`
 where
