@@ -13,4 +13,3 @@ if [ $# = 1 ] ; then
 else
   MYSQL_PWD=g1p2j3 mysql -h127.0.0.1 -P3307 -ugongpengjun baby_database
 fi
-

@@ -1,4 +1,4 @@
-USE `baby_database`;
+#USE `baby_database`;
 #SHOW TABLES;
 #DESC `baby_database`.`users`;
 select

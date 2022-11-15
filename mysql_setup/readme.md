@@ -111,10 +111,10 @@ $ ./mysql.sh tools/table_users_init.sql
 
 ```shell
 $ tools/rows_sample.sh baby_database users
-id	avatar_url
-1	https://old.gongpengjun.com/baby-public/a.png
-2	https://old.gongpengjun.com/baby-public/b.png
-3	https://old.gongpengjun.com/baby-public/c.png
+id  avatar_url  created_at  updated_at
+1   https://old.gongpengjun.com/baby-public/a.png   2022-11-15 21:06:41 2022-11-15 21:06:41
+2   https://old.gongpengjun.com/baby-public/b.png   2022-11-15 21:06:41 2022-11-15 21:06:41
+3   https://old.gongpengjun.com/baby-public/c.png   2022-11-15 21:06:41 2022-11-15 21:06:41
 ```
 
 数据库 `baby_database` 中表`users`行数统计：
