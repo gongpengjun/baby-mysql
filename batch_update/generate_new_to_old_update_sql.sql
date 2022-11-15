@@ -4,7 +4,7 @@ select
     'SET `avatar_url` = REPLACE(`avatar_url`, "new.gongpengjun.com", "old.gongpengjun.com"), `updated_at` = `updated_at` ',
     'WHERE id = ',
     id,
-    ' limit 1;'
+    ' LIMIT 1;'
   ) AS `baby_database.users.avatar_url.new2old.update_sql`
 from
   `baby_database`.`users`

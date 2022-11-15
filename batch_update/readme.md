@@ -40,21 +40,24 @@ where
 ### 1.4、数据采样
 
 ```shell
-$ ./mysql.sh sample_record.sql
-#execute: sample_record.sql
-1	https://old.gongpengjun.com/baby-public/a.png
-2	https://old.gongpengjun.com/baby-public/b.png
-3	https://old.gongpengjun.com/baby-public/c.png
+$ ./mysql.sh
+mysql> source sample_record.sql
++----+-----------------------------------------------+---------------------+---------------------+
+| id | avatar_url                                    | created_at          | updated_at          |
++----+-----------------------------------------------+---------------------+---------------------+
+|  1 | https://old.gongpengjun.com/baby-public/a.png | 2022-11-15 21:06:41 | 2022-11-15 21:06:41 |
+|  2 | https://old.gongpengjun.com/baby-public/b.png | 2022-11-15 21:06:41 | 2022-11-15 21:06:41 |
+|  3 | https://old.gongpengjun.com/baby-public/c.png | 2022-11-15 21:06:41 | 2022-11-15 21:06:41 |
++----+-----------------------------------------------+---------------------+---------------------+
+3 rows in set (0.00 sec)
 ```
 
 ### 1.5、数据统计
 
 ```shell
 $ ./mysql.sh count_old_host.sql
-#execute: count_old_host.sql
 3
 $ ./mysql.sh count_new_host.sql
-#execute: count_new_host.sql
 0
 ```
 
@@ -68,10 +71,10 @@ $ ./mysql.sh count_new_host.sql
 select
   concat(
     'UPDATE `baby_database`.`users` ',
-    'SET `avatar_url` = REPLACE(`avatar_url`, "old.gongpengjun.com", "new.gongpengjun.com") ',
+    'SET `avatar_url` = REPLACE(`avatar_url`, "old.gongpengjun.com", "new.gongpengjun.com"), `updated_at` = `updated_at` ',
     'WHERE `id` = ',
     id,
-    ';'
+    ' LIMIT 1;'
   ) AS `baby_database.users.avatar_url.old2new.update_sql`
 from
   `baby_database`.`users`
@@ -82,7 +85,7 @@ where
 实际执行：
 
 ```shell
-$ ./mysql.sh generate_old_to_new_update_sql.sql > avatar_url_host_old_to_new_update.sql
+$ ./mysql.sh generate_old_to_new_update_sql.sql | awk '1;NR%2==0{print "DO SLEEP(1); /* wait for a second */"}' > avatar_url_host_old_to_new_update.sql
 ```
 
 ### 2.2、执行刷数据SQL
@@ -90,16 +93,16 @@ $ ./mysql.sh generate_old_to_new_update_sql.sql > avatar_url_host_old_to_new_upd
 `avatar_url_host_old_to_new_update.sql`:
 
 ```sql
-UPDATE `baby_database`.`users` SET `avatar_url` = REPLACE(`avatar_url`, "old.gongpengjun.com", "new.gongpengjun.com") WHERE `id` = 1;
-UPDATE `baby_database`.`users` SET `avatar_url` = REPLACE(`avatar_url`, "old.gongpengjun.com", "new.gongpengjun.com") WHERE `id` = 2;
-UPDATE `baby_database`.`users` SET `avatar_url` = REPLACE(`avatar_url`, "old.gongpengjun.com", "new.gongpengjun.com") WHERE `id` = 3;
+UPDATE `baby_database`.`users` SET `avatar_url` = REPLACE(`avatar_url`, "old.gongpengjun.com", "new.gongpengjun.com"), `updated_at` = `updated_at` WHERE `id` = 1 LIMIT 1;
+UPDATE `baby_database`.`users` SET `avatar_url` = REPLACE(`avatar_url`, "old.gongpengjun.com", "new.gongpengjun.com"), `updated_at` = `updated_at` WHERE `id` = 2 LIMIT 1;
+DO SLEEP(1); /* wait for a second */
+UPDATE `baby_database`.`users` SET `avatar_url` = REPLACE(`avatar_url`, "old.gongpengjun.com", "new.gongpengjun.com"), `updated_at` = `updated_at` WHERE `id` = 3 LIMIT 1;
 ```
 
 实际执行：
 
 ```shell
 $ ./mysql.sh avatar_url_host_old_to_new_update.sql
-#execute: avatar_url_host_old_to_new_update.sql
 ```
 
 ## 3、刷新后数据采样和统计
@@ -108,21 +111,24 @@ $ ./mysql.sh avatar_url_host_old_to_new_update.sql
 
 
 ```shell
-$ ./mysql.sh sample_record.sql
-#execute: sample_record.sql
-1	https://new.gongpengjun.com/baby-public/a.png
-2	https://new.gongpengjun.com/baby-public/b.png
-3	https://new.gongpengjun.com/baby-public/c.png
+$ ./mysql.sh 
+mysql> source sample_record.sql
++----+-----------------------------------------------+---------------------+---------------------+
+| id | avatar_url                                    | created_at          | updated_at          |
++----+-----------------------------------------------+---------------------+---------------------+
+|  1 | https://new.gongpengjun.com/baby-public/a.png | 2022-11-15 21:06:41 | 2022-11-15 21:06:41 |
+|  2 | https://new.gongpengjun.com/baby-public/b.png | 2022-11-15 21:06:41 | 2022-11-15 21:06:41 |
+|  3 | https://new.gongpengjun.com/baby-public/c.png | 2022-11-15 21:06:41 | 2022-11-15 21:06:41 |
++----+-----------------------------------------------+---------------------+---------------------+
+3 rows in set (0.00 sec)
 ```
 
 ### 3.2、数据统计
 
 ```shell
 $ ./mysql.sh count_old_host.sql
-#execute: count_old_host.sql
 0
 $ ./mysql.sh count_new_host.sql
-#execute: count_new_host.sql
 3
 ```
 
