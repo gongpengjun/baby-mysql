@@ -46,7 +46,7 @@ mysql_setup
 
 ### 2.2、`my.cnf`
 
-MySQL配置文件，简单配置即可。
+MySQL配置文件[my.cnf](docker/config/my.cnf)，简单配置下字符编码即可。
 
 ### 2.3、`data`
 
@@ -72,12 +72,16 @@ $ docker-compose up -d
 
 ### 3.2、登录MySQL - `root`
 
+[mysql_user_root.sh](tools/mysql_user_root.sh)
+
 ```shell
 $ tools/mysql_user_root.sh tools/show_mysql_uptime.sql
 Uptime	119
 ```
 
 ### 3.3、登录MySQL - `gongpengjun`
+
+[mysql_user_gongpengjun.sh](tools/mysql_user_gongpengjun.sh)
 
 ```shell
 $ tools/mysql_user_gongpengjun.sh tools/show_mysql_uptime.sql
@@ -109,6 +113,8 @@ $ ./mysql.sh tools/table_users_init.sql
 
 数据库 `baby_database` 中表`users`数据采样：
 
+[rows_sample.sh](tools/rows_sample.sh)
+
 ```shell
 $ tools/rows_sample.sh baby_database users
 id  avatar_url  created_at  updated_at
@@ -118,6 +124,8 @@ id  avatar_url  created_at  updated_at
 ```
 
 数据库 `baby_database` 中表`users`行数统计：
+
+[rows_count.sh](tools/rows_count.sh)
 
 ```shell
 $ tools/rows_count.sh baby_database users
